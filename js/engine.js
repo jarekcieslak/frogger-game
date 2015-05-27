@@ -14,7 +14,7 @@
  * a little simpler to work with.
  */
 
-var Engine = (function(global) {
+var Engine = (function (global) {
     /* Predefine the variables we'll be using within this scope,
      * create the canvas element, grab the 2D context for that canvas
      * set the canvas elements height/width and add it to the DOM.
@@ -23,11 +23,15 @@ var Engine = (function(global) {
         win = global.window,
         canvas = doc.createElement('canvas'),
         ctx = canvas.getContext('2d'),
-        lastTime;
+        scoreDispl = doc.createElement('div');
+        scoreDispl.id = 'score-displ';
+    scoreDispl.innerHTML = '0';
+        //lastTime;
 
     canvas.width = 505;
     canvas.height = 606;
     doc.body.appendChild(canvas);
+    doc.body.appendChild((scoreDispl));
 
     /* This function serves as the kickoff point for the game loop itself
      * and handles properly calling the update and render methods.
@@ -80,7 +84,31 @@ var Engine = (function(global) {
      */
     function update(dt) {
         updateEntities(dt);
-        // checkCollisions();
+        checkCollisions();
+
+    }
+
+
+    function checkCollisions() {
+        for (var en in allEnemies) {
+            //console.log(allEnemies[en].x);
+            if (player.x >= allEnemies[en].x-20 && player.x <= allEnemies[en].x &&
+            player.y >= allEnemies[en].y-20 && player.y <= allEnemies[en].y +20) {
+
+                player.startPlayer();
+            }
+        }
+        //for (var en in allEnemies){
+        //    if ( ( player.x <= allEnemies[en].x + 60 ) &&
+        //        ( player.x > allEnemies[en].x - allEnemies[en].dx) &&
+        //        ( player.y === allEnemies[en].y + 30 )
+        //    )
+        //    {
+        //        alert('aa');
+        //        player.score = 0;
+        //        player.startPlayer();
+        //    }
+        //}
     }
 
     /* This is called by the update function  and loops through all of the
@@ -91,7 +119,7 @@ var Engine = (function(global) {
      * render methods.
      */
     function updateEntities(dt) {
-        allEnemies.forEach(function(enemy) {
+        allEnemies.forEach(function (enemy) {
             enemy.update(dt);
         });
         player.update();
@@ -148,7 +176,8 @@ var Engine = (function(global) {
         /* Loop through all of the objects within the allEnemies array and call
          * the render function you have defined.
          */
-        allEnemies.forEach(function(enemy) {
+
+        allEnemies.forEach(function (enemy) {
             enemy.render();
         });
 

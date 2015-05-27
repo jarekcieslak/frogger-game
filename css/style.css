@@ -1,3 +1,14 @@
 body {
     text-align: center;
 }
+
+#score-displ {
+    font-size:30px;
+    font-weight:bold;
+}
+#score-displ:after {
+    font-size:20px;
+    font-weight:normal;
+    color:#999;
+    content: ' pts';
+}
